@@ -1,1 +1,6 @@
 @import "tailwindcss";
+
+@theme{
+    --color-think-blue:#CBB6E5;
+    --color-think-purple:#000853;
+}
