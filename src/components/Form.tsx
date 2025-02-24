@@ -17,7 +17,7 @@ export default function Form()
                     <TextField label={"First Name"}/>
                     <TextField label={"Last Name"}/>
                     <TextField label={"Email Address"} type={"email"} errorMessage={`Please use correct formatting.\nExample: address@email.com`} />
-                    <Slider label={"Age"} min={8} max={100} step={0.01} />
+                    <Slider label={"Age"} min={8} max={100} step={1} />
                     <Title text={"Your workout"}/>
                     <button className="group-invalid:bg-pink-500" type={"submit"}>
                         dasdas
