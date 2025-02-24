@@ -1,15 +1,26 @@
-interface TextFieldProps{
+import {InputHTMLAttributes} from "react";
+import error from "../assets/Vector.svg"
+
+interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement>
+{
     label: string,
+    errorMessage?:string
 }
 
-export function TextField({label}: TextFieldProps)
+export default function TextField({label,errorMessage, ...rest}: TextFieldProps)
 {
-    return(
-        <div className="w-106.5 flex flex-col gap-2 font-[Inter]">
-            <div className="text-xs text-think-purple">
+    return (
+        <div className=" w-106.5 flex flex-col gap-2 font-[Inter] font-normal">
+            <label className="text-base text-think-purple max-h-3 leading-4.84">
                 {label}
-            </div>
-                <input className="bg-white w-full border border-think-blue rounded-lg h-12 text-base p-4" type="text"/>
+            </label>
+            <input
+                className="peer bg-white w-full border border-think-blue rounded-lg h-12 text-base p-4 focus:border-2 focus:border-think-blue-active focus:outline-none invalid:[&:not(:placeholder-shown):not(:focus)]:border-think-error invalid:[&:not(:placeholder-shown):not(:focus)]:border-2 leading-4.84" {...rest}
+                placeholder={" "} required={true}/>
+            <label className={"hidden text-think-purple text-sm peer-[&:not(:placeholder-shown):not(:focus):invalid]:flex whitespace-pre-wrap leading-4.235 gap-2 items-start"}>
+                <img src={error} className="pt-1"/>
+                {errorMessage}
+            </label>
         </div>
     )
 }
