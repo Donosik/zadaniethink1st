@@ -25,7 +25,7 @@ export default function Slider({label, min, max, ...rest}: SliderProps)
                        onChange={(e) => setValue(Number(e.target.value))}/>
                 <div className="relative">
                     <div className={`absolute`} style={{
-                        left: `calc(${((value - min) / (max-min+2)) * 100}%)`,
+                        left: `calc(${((value - min) / (max-min+2.4)) * 100}%)`,
                     }}>
                         <div className="flex border h-6.25 w-6.25 items-center justify-center  text-xs font-normal text-think-blue-active top-2">
                             {value}
