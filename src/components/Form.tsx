@@ -42,18 +42,15 @@ export default function Form()
         if (name in formData)
         {
             setFormData((prevState) => ({...prevState, [name]: value}))
-        } else
-        {
-            console.log("niepoprawne name");
-            console.log(name, value);
         }
     }
 
     function handleSubmit(e)
     {
         e.preventDefault();
+        if (isFormValid){
             console.log(formData)
-        console.log(isFormValid)
+        }
     }
 
     return (
