@@ -19,7 +19,7 @@ export default function Upload({label, ...rest}: UploadProps)
                     <span> or drag and drop here</span>
                 </span>
             </label>
-            <input id={id} className="hidden" type={"file"} {...rest} />
+            <input id={id} className="hidden" type={"file"} {...rest} required />
         </div>
     )
 }
