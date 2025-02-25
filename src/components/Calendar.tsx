@@ -1,5 +1,5 @@
 import Label from "./Label.tsx";
-import {InputHTMLAttributes, useEffect, useId, useState} from "react";
+import {InputHTMLAttributes, useId, useState} from "react";
 import useMonthCalendar from "../hooks/useMonthCalendar.ts";
 import leftArrow from "./../assets/LeftArrow.svg"
 import rightArrow from "./../assets/RightArrow.svg"
@@ -9,6 +9,8 @@ interface CalendarProps extends InputHTMLAttributes<HTMLInputElement>
 {
     labelDate: string,
     labelTime: string,
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
     onChange: (e) => void
 }
 
@@ -150,7 +152,7 @@ export default function Calendar({labelDate, labelTime, onChange, ...rest}: Cale
                 <input className={"hidden"} id={id} {...rest} type={"date"}/>
             </div>
             {(choosenDay !== 0) &&
-                <TimeGroup onChange={onChange}/>
+                <TimeGroup label={labelTime} onChange={onChange}/>
             }
         </div>
     )

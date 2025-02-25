@@ -36,6 +36,8 @@ export default function Form()
             emailRegex.test(formData.email)
     }, [formData])
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
     function handleChange(e)
     {
         const {name, value} = e.target;
@@ -45,6 +47,8 @@ export default function Form()
         }
     }
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
     function handleSubmit(e)
     {
         e.preventDefault();

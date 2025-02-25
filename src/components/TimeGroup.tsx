@@ -1,14 +1,19 @@
 import Label from "./Label.tsx";
-import {Fragment, useId} from "react";
+import {useId} from "react";
 
 interface TimeGroupProps {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
     onChange: (e) => void;
+    label: string;
 }
 
-export default function TimeGroup({onChange}: TimeGroupProps)
+export default function TimeGroup({onChange,label}: TimeGroupProps)
 {
     const id=useId()
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
     function handleChange(e)
     {
         onChange(e)
@@ -17,7 +22,7 @@ export default function TimeGroup({onChange}: TimeGroupProps)
     const values=["12:00","14:00","16:00","18:00","20:00"]
     return(
         <div className={"flex flex-col gap-2"}>
-            <Label text={"Time"}/>
+            <Label text={label}/>
             <div className={"flex flex-col gap-2"}>
                 {values.map((item,index)=>(
                     <div key={index}>

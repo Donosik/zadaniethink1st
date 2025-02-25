@@ -6,13 +6,16 @@ interface SliderProps extends InputHTMLAttributes<HTMLInputElement>
     label: string,
     min: number,
     max: number,
-    onChange?: (e) => void
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    onChange: (e) => void
 }
 
 export default function Slider({label, min, max,onChange, ...rest}: SliderProps)
 {
     const [value, setValue] = useState<number>(min);
-
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
     function onChangeSlider(e){
         setValue(Number(e.target.value))
         onChange(e)
