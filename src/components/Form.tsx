@@ -2,6 +2,7 @@ import TextField from "./TextField.tsx";
 import Title from "./Title.tsx";
 import Slider from "./Slider.tsx";
 import Upload from "./Upload.tsx";
+import Calendar from "./Calendar.tsx";
 
 export default function Form()
 {
@@ -21,6 +22,7 @@ export default function Form()
                     <Slider label={"Age"} min={8} max={100} step={1} />
                     <Upload label={"Photo"}/>
                     <Title text={"Your workout"}/>
+                    <Calendar labelDate={"Date"} labelTime={"Time"}/>
                     <button className="group-invalid:bg-pink-500" type={"submit"}>
                         dasdas
                     </button>
