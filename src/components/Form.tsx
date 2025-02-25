@@ -1,6 +1,7 @@
 import TextField from "./TextField.tsx";
 import Title from "./Title.tsx";
 import Slider from "./Slider.tsx";
+import Upload from "./Upload.tsx";
 
 export default function Form()
 {
@@ -18,6 +19,7 @@ export default function Form()
                     <TextField label={"Last Name"}/>
                     <TextField label={"Email Address"} type={"email"} errorMessage={`Please use correct formatting.\nExample: address@email.com`} />
                     <Slider label={"Age"} min={8} max={100} step={1} />
+                    <Upload label={"Photo"}/>
                     <Title text={"Your workout"}/>
                     <button className="group-invalid:bg-pink-500" type={"submit"}>
                         dasdas
