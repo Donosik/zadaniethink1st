@@ -1,5 +1,5 @@
 import Label from "./Label.tsx";
-import {Fragment, useId} from "react";
+import {useId} from "react";
 
 interface TimeGroupProps {
     onChange: (e) => void;

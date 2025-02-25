@@ -4,6 +4,7 @@ import useMonthCalendar from "../hooks/useMonthCalendar.ts";
 import leftArrow from "./../assets/LeftArrow.svg"
 import rightArrow from "./../assets/RightArrow.svg"
 import TimeGroup from "./TimeGroup.tsx";
+import useFetchHolidays from "../hooks/useFetchHolidays.ts";
 
 interface CalendarProps extends InputHTMLAttributes<HTMLInputElement>
 {
@@ -24,32 +25,34 @@ export default function Calendar({labelDate, labelTime, onChange, ...rest}: Cale
     const [year, setYear] = useState<number>(new Date().getFullYear())
     const weeks: (number | null)[][] = useMonthCalendar(year, month)
 
+    const {data} = useFetchHolidays(year)
+
     function changeDay(day: number | null)
     {
         if (day !== null)
         {
             setChoosenDay(day)
-            const e={
-                target:{
-                    value:day+" "+(month+1)+" "+year,
-                    name:"date"
+            const e = {
+                target: {
+                    value: day + " " + (month + 1) + " " + year,
+                    name: "date"
                 }
             }
             onChange(e)
         } else
         {
             setChoosenDay(0)
-            const e={
-                target:{
+            const e = {
+                target: {
                     value: "",
-                    name:"date"
+                    name: "date"
                 }
             }
             onChange(e)
-            const e2={
-                target:{
+            const e2 = {
+                target: {
                     value: "",
-                    name:"time"
+                    name: "time"
                 }
             }
             onChange(e2)
@@ -62,10 +65,10 @@ export default function Calendar({labelDate, labelTime, onChange, ...rest}: Cale
         {
             if (month === 11)
             {
-                const e={
-                    target:{
-                        value:choosenDay+" "+1+" "+(year+1),
-                        name:"date"
+                const e = {
+                    target: {
+                        value: choosenDay + " " + 1 + " " + (year + 1),
+                        name: "date"
                     }
                 }
                 onChange(e)
@@ -73,10 +76,10 @@ export default function Calendar({labelDate, labelTime, onChange, ...rest}: Cale
                 setMonth(0)
             } else
             {
-                const e={
-                    target:{
-                        value:choosenDay+" "+(month+2)+" "+year,
-                        name:"date"
+                const e = {
+                    target: {
+                        value: choosenDay + " " + (month + 2) + " " + year,
+                        name: "date"
                     }
                 }
                 onChange(e)
@@ -86,10 +89,10 @@ export default function Calendar({labelDate, labelTime, onChange, ...rest}: Cale
         {
             if (month === 0)
             {
-                const e={
-                    target:{
-                        value:choosenDay+" "+(12)+" "+(year-1),
-                        name:"date"
+                const e = {
+                    target: {
+                        value: choosenDay + " " + (12) + " " + (year - 1),
+                        name: "date"
                     }
                 }
                 onChange(e)
@@ -97,16 +100,29 @@ export default function Calendar({labelDate, labelTime, onChange, ...rest}: Cale
                 setMonth(11)
             } else
             {
-                const e={
-                    target:{
-                        value:choosenDay+" "+month+" "+year,
-                        name:"date"
+                const e = {
+                    target: {
+                        value: choosenDay + " " + month + " " + year,
+                        name: "date"
                     }
                 }
                 onChange(e)
                 setMonth(month - 1)
             }
         }
+    }
+
+    function isHoliday(day: number): string
+    {
+        if (!data || data.length === 0) return ""
+
+        const currDate = `${year}-${month}-${day}`
+
+        const holiday = data.find(oneDay => oneDay.date === currDate)
+
+        console.log(holiday)
+
+        return holiday ? holiday.type : ""
     }
 
     return (
@@ -135,14 +151,44 @@ export default function Calendar({labelDate, labelTime, onChange, ...rest}: Cale
                         <div key={key} className={"flex gap-2.5 text-sm font-medium"}>
                             {
                                 week.map((day, key2) =>
-                                    (<>
-                                            <button type={"button"} onClick={() => changeDay(day)}
-                                                    key={key2}
-                                                    className={`text-sm font-medium w-7 h-7 flex justify-center items-center ${day === choosenDay ? "bg-think-blue-active p-2 rounded-full text-white" : ""}`}>
-                                                {day}
-                                            </button>
-                                        </>
-                                    ))}
+                                {
+                                    if (day)
+                                    {
+                                        const isSunday = new Date(year, month, day).getDay() === 0
+                                        const isNational = (isHoliday(day) === "NATIONAL_HOLIDAY")
+                                        if (isSunday || isNational)
+                                        {
+                                            return (<>
+                                                    <button type={"button"} onClick={() => changeDay(0)}
+                                                            key={key2}
+                                                            className={`text-sm font-medium w-7 h-7 flex justify-center items-center text-think-gray`}>
+                                                        {day}
+                                                    </button>
+                                                </>
+                                            )
+                                        } else
+                                        {
+                                            return (<>
+                                                    <button type={"button"} onClick={() => changeDay(0)}
+                                                            key={key2}
+                                                            className={`text-sm font-medium w-7 h-7 flex justify-center items-center ${day === choosenDay ? "bg-think-blue-active p-2 rounded-full text-white" : ""}`}>
+                                                        {day}
+                                                    </button>
+                                                </>
+                                            )
+                                        }
+                                    } else
+                                    {
+                                        return (<>
+                                                <button type={"button"} onClick={() => changeDay(day)}
+                                                        key={key2}
+                                                        className={`text-sm font-medium w-7 h-7 flex justify-center items-center`}>
+                                                    {day}
+                                                </button>
+                                            </>
+                                        )
+                                    }
+                                })}
                         </div>
                     ))
                     }
