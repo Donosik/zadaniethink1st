@@ -6,11 +6,18 @@ interface SliderProps extends InputHTMLAttributes<HTMLInputElement>
     label: string,
     min: number,
     max: number,
+    onChange?: (e) => void
 }
 
-export default function Slider({label, min, max, ...rest}: SliderProps)
+export default function Slider({label, min, max,onChange, ...rest}: SliderProps)
 {
     const [value, setValue] = useState<number>(min);
+
+    function onChangeSlider(e){
+        setValue(Number(e.target.value))
+        onChange(e)
+    }
+
     return (
         <div className="w-109.5 h-23 flex flex-col gap-4">
             <Label text={label}/>
@@ -21,8 +28,7 @@ export default function Slider({label, min, max, ...rest}: SliderProps)
                 </div>
                 <input type={"range"}
                        className="h-1 bg-think-slider rounded-lg appearance-none cursor-pointer" {...rest} min={min}
-                       defaultValue={min} max={max}
-                       onChange={(e) => setValue(Number(e.target.value))}/>
+                       defaultValue={min} max={max} onChange={onChangeSlider} required/>
                 <div className="relative">
                     <div className={`absolute`} style={{
                         left: `calc(${((value - min) / (max-min+2.4)) * 100}%)`,

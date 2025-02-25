@@ -9,12 +9,13 @@ interface CalendarProps extends InputHTMLAttributes<HTMLInputElement>
 {
     labelDate: string,
     labelTime: string,
+    onChange: (e) => void
 }
 
 const monthNames = ["January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"]
 
-export default function Calendar({labelDate, labelTime, ...rest}: CalendarProps)
+export default function Calendar({labelDate, labelTime, onChange, ...rest}: CalendarProps)
 {
     const id = useId()
 
@@ -26,9 +27,33 @@ export default function Calendar({labelDate, labelTime, ...rest}: CalendarProps)
     function changeDay(day: number | null)
     {
         if (day !== null)
+        {
             setChoosenDay(day)
-        else
+            const e={
+                target:{
+                    value:day+" "+(month+1)+" "+year,
+                    name:"date"
+                }
+            }
+            onChange(e)
+        } else
+        {
             setChoosenDay(0)
+            const e={
+                target:{
+                    value: "",
+                    name:"date"
+                }
+            }
+            onChange(e)
+            const e2={
+                target:{
+                    value: "",
+                    name:"time"
+                }
+            }
+            onChange(e2)
+        }
     }
 
     function changeMonth(increase: boolean)
@@ -37,20 +62,48 @@ export default function Calendar({labelDate, labelTime, ...rest}: CalendarProps)
         {
             if (month === 11)
             {
+                const e={
+                    target:{
+                        value:choosenDay+" "+1+" "+(year+1),
+                        name:"date"
+                    }
+                }
+                onChange(e)
                 setYear(year + 1)
                 setMonth(0)
             } else
             {
+                const e={
+                    target:{
+                        value:choosenDay+" "+(month+2)+" "+year,
+                        name:"date"
+                    }
+                }
+                onChange(e)
                 setMonth(month + 1)
             }
         } else
         {
             if (month === 0)
             {
+                const e={
+                    target:{
+                        value:choosenDay+" "+(12)+" "+(year-1),
+                        name:"date"
+                    }
+                }
+                onChange(e)
                 setYear(year - 1)
                 setMonth(11)
             } else
             {
+                const e={
+                    target:{
+                        value:choosenDay+" "+month+" "+year,
+                        name:"date"
+                    }
+                }
+                onChange(e)
                 setMonth(month - 1)
             }
         }
@@ -97,7 +150,7 @@ export default function Calendar({labelDate, labelTime, ...rest}: CalendarProps)
                 <input className={"hidden"} id={id} {...rest} type={"date"}/>
             </div>
             {(choosenDay !== 0) &&
-                <TimeGroup/>
+                <TimeGroup onChange={onChange}/>
             }
         </div>
     )
